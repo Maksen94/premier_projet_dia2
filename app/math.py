@@ -20,3 +20,14 @@ def est_premier(n: int) -> bool:
             return False
         i += 1
     return True
+
+
+def pgcd(a: int, b: int) -> int:
+    if a < 0 or b < 0:
+        raise ValueError("a et b doivent être positifs ou nuls")
+    if a == 0 and b == 0:
+        raise ValueError("pgcd(0, 0) n'est pas défini")
+    while b:
+        a, b = b, a % b
+    return a
+
