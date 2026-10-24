@@ -1,4 +1,4 @@
-def factorielle(n: int) -> int:
+﻿def factorielle(n: int) -> int:
     if n < 0:
         raise ValueError("n doit être positif ou nul")
     if n > 1000:
@@ -6,9 +6,7 @@ def factorielle(n: int) -> int:
     resultat = 1
     for i in range(2, n + 1):
         resultat *= i
-    return 
-
-
+    return resultat
 
 
 def est_premier(n: int) -> bool:
