@@ -18,3 +18,11 @@ def mdp_robuste(mdp: str) -> bool:
     a_chiffre = any(c.isdigit() for c in mdp)
     a_special = any(not c.isalnum() for c in mdp)
     return a_majuscule and a_minuscule and a_chiffre and a_special
+
+
+
+
+def code_postal(cp: str) -> bool:
+    if not isinstance(cp, str) or not cp.strip():
+        raise ValueError("le code postal ne doit pas être vide")
+    return bool(re.fullmatch(r"\d{5}", cp))
