@@ -1,0 +1,17 @@
+# Cache Python
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+.coverage
+
+# Environnements virtuels
+venv/
+.venv/
+
+# Secrets (ne jamais versionner)
+.env
+
+# Fichiers d'éditeur
+.vscode/
+.idea/
