@@ -1,6 +1,6 @@
 from fastapi import FastAPI, HTTPException
 
-from app.outils.validation import email_valide, mdp_robuste
+from app.outils.validation import email_valide, mdp_robuste, code_postal
 
 app = FastAPI(title="Mini API")
 
