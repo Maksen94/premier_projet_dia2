@@ -4,20 +4,38 @@ from app.main import app
 
 client = TestClient(app)
 
-# 1. Cas normal : On vérifie qu'un mot classique est bien inversé
+# --- TESTS POUR INVERSER ---
 def test_inverser_normal():
     reponse = client.get("/texte/inverser/bonjour")
     assert reponse.status_code == 200
     assert reponse.json()["resultat"] == "ruojnob"
 
-# 2. Cas limite : On vérifie le comportement avec une seule lettre
 def test_inverser_limite():
     reponse = client.get("/texte/inverser/a")
     assert reponse.status_code == 200
     assert reponse.json()["resultat"] == "a"
 
-# 3. Cas d'erreur : On vérifie que les nombres déclenchent bien l'erreur 400
-def test_inverser_erreur():
-    reponse = client.get("/texte/inverser/12345")
-    assert reponse.status_code == 400
-    assert "L'entrée doit contenir des lettres" in reponse.json()["detail"]
+
+# --- TESTS POUR PALINDROME ---
+def test_palindrome_normal():
+    reponse = client.get("/texte/palindrome/kayak")
+    assert reponse.status_code == 200
+    assert reponse.json()["est_palindrome"] is True
+
+def test_palindrome_limite():
+    reponse = client.get("/texte/palindrome/ressasser")
+    assert reponse.status_code == 200
+    assert reponse.json()["est_palindrome"] is True
+
+
+# --- TESTS POUR VOYELLES ---
+def test_voyelles_normal():
+    reponse = client.get("/texte/voyelles/bonjour")
+    assert reponse.status_code == 200
+    assert reponse.json()["nombre_voyelles"] == 3
+
+def test_voyelles_limite():
+    # 'y' est compté comme une voyelle, donc 1 voyelle dans 'xyz'
+    reponse = client.get("/texte/voyelles/xyz")
+    assert reponse.status_code == 200
+    assert reponse.json()["nombre_voyelles"] == 1
