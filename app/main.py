@@ -21,3 +21,4 @@ def route_mdp_robuste(mdp: str):
         return {"valide": mdp_robuste(mdp)}
     except ValueError as e:
         raise HTTPException(400, detail=str(e))
+    
