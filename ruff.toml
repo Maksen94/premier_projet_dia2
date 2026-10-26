@@ -1,0 +1,4 @@
+[lint]
+ignore = ["TRY004"]
+[lint]
+ignore = ["TRY004", "I001"]
