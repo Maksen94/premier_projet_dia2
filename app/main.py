@@ -1,12 +1,16 @@
 # app/main.py
 from fastapi import FastAPI, HTTPException
 
+
 # 1. Initialisation de l'application en premier
 app = FastAPI(title="Mini API")
 
 # 2. Tous les imports de vos modules
 from app.outils.texte import inverser, est_palindrome, compter_voyelles
 from app.outils.validation import email_valide
+
+
+from app.outils.validation import email_valide, mdp_robuste
 from app.math import est_premier, factorielle, pgcd
 
 
@@ -43,6 +47,18 @@ def route_email_valide(email: str):
 
 
 # --- ROUTES MATHS ---
+
+
+
+
+@app.get("/mdp-robuste")
+def route_mdp_robuste(mdp: str):
+    try:
+        return {"valide": mdp_robuste(mdp)}
+    except ValueError as e:
+        raise HTTPException(400, detail=str(e))
+
+
 @app.get("/math/factorielle/{n}")
 def route_factorielle(n: int):
     try:
@@ -64,4 +80,9 @@ def route_pgcd(a: int, b: int):
     try:
         return {"a": a, "b": b, "resultat": pgcd(a, b)}
     except ValueError as e:
+
         raise HTTPException(400, detail=str(e))
+
+        raise HTTPException(status_code=400, detail=str(e))
+
+
