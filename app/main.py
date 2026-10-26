@@ -1,6 +1,9 @@
 # app/main.py
 from fastapi import FastAPI, HTTPException
 
+from app.outils.validation import email_valide, mdp_robuste, code_postal
+
+
 
 # 1. Initialisation de l'application en premier
 app = FastAPI(title="Mini API")
@@ -11,6 +14,7 @@ from app.outils.validation import email_valide
 
 
 from app.outils.validation import email_valide, mdp_robuste
+
 from app.math import est_premier, factorielle, pgcd
 
 
@@ -57,6 +61,7 @@ def route_mdp_robuste(mdp: str):
         return {"valide": mdp_robuste(mdp)}
     except ValueError as e:
         raise HTTPException(400, detail=str(e))
+    
 
 
 @app.get("/math/factorielle/{n}")

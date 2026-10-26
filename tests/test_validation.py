@@ -1,5 +1,5 @@
 import pytest
-from app.outils.validation import email_valide, mdp_robuste
+from app.outils.validation import email_valide, mdp_robuste, code_postal
 
 
 def test_email_valide_normal():
@@ -36,3 +36,18 @@ def test_mdp_robuste_erreur_vide():
 
 
 
+def test_code_postal_normal():
+    assert code_postal("94000") is True
+
+
+def test_code_postal_limite_4_chiffres():
+    assert code_postal("9400") is False
+
+
+def test_code_postal_lettres():
+    assert code_postal("94A00") is False
+
+
+def test_code_postal_erreur_vide():
+    with pytest.raises(ValueError):
+        code_postal("")
