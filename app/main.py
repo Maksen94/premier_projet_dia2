@@ -8,6 +8,7 @@ app = FastAPI(title="Mini API")
 # 2. Tous les imports de vos modules
 from app.outils.texte import inverser, est_palindrome, compter_voyelles
 from app.outils.validation import email_valide
+from app.outils.conversion import celsius_fahrenheit, km_miles, euros_devise
 
 
 from app.outils.validation import email_valide, mdp_robuste
@@ -85,4 +86,27 @@ def route_pgcd(a: int, b: int):
 
         raise HTTPException(status_code=400, detail=str(e))
 
+# --- ROUTES CONVERSION ---
+@app.get("/conversion/celsius_fahrenheit/{celsius}")
+def route_celsius_fahrenheit(celsius: float):
+    try:
+        return {"celsius": celsius, "fahrenheit": celsius_fahrenheit(celsius)}
+    except ValueError as e:
+        raise HTTPException(400, detail=str(e))
+
+
+@app.get("/conversion/km_miles/{km}")
+def route_km_miles(km: float):
+    try:
+        return {"km": km, "miles": km_miles(km)}
+    except ValueError as e:
+        raise HTTPException(400, detail=str(e))
+
+
+@app.get("/conversion/euros_devise/{montant}/{devise}")
+def route_euros_devise(montant: float, devise: str):
+    try:
+        return {"montant": montant, "devise": devise.upper(), "resultat": euros_devise(montant, devise)}
+    except ValueError as e:
+        raise HTTPException(400, detail=str(e))
 
