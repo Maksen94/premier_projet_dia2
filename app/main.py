@@ -1,7 +1,7 @@
 # app/main.py
 from fastapi import FastAPI, HTTPException
 
-from app.outils.validation import email_valide, mdp_robuste, code_postal
+from app.outils.validation import email_valide, mdp_robuste
 
 
 
@@ -10,11 +10,9 @@ app = FastAPI(title="Mini API")
 
 # 2. Tous les imports de vos modules
 from app.outils.texte import inverser, est_palindrome, compter_voyelles
-from app.outils.validation import email_valide
 from app.outils.conversion import celsius_fahrenheit, km_miles, euros_devise
 
 
-from app.outils.validation import email_valide, mdp_robuste
 
 from app.math import est_premier, factorielle, pgcd
 
