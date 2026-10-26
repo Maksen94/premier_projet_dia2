@@ -1,6 +1,10 @@
 import pytest
+from fastapi.testclient import TestClient
+
+from app.main import app
 from app.outils.conversion import celsius_fahrenheit, km_miles, euros_devise
 
+client = TestClient(app)
 
 # --- celsius_fahrenheit ---
 def test_celsius_fahrenheit_ebullition():
@@ -47,3 +51,24 @@ def test_euros_devise_montant_negatif():
 def test_euros_devise_devise_inconnue():
     with pytest.raises(ValueError):
         euros_devise(100, "XXX")
+
+# --- routes ---
+def test_route_celsius_fahrenheit():
+    r = client.get("/conversion/celsius_fahrenheit/100")
+    assert r.status_code == 200
+    assert r.json()["fahrenheit"] == 212
+
+
+def test_route_celsius_fahrenheit_invalide():
+    r = client.get("/conversion/celsius_fahrenheit/-300")
+    assert r.status_code == 400
+
+
+def test_route_km_miles_invalide():
+    r = client.get("/conversion/km_miles/-1")
+    assert r.status_code == 400
+
+
+def test_route_euros_devise_inconnue():
+    r = client.get("/conversion/euros_devise/100/XXX")
+    assert r.status_code == 400
