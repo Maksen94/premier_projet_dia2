@@ -1,20 +1,18 @@
 # app/main.py
 from fastapi import FastAPI, HTTPException
 
-from app.outils.validation import email_valide, mdp_robuste
+from app.math import est_premier, factorielle, pgcd
+from app.outils.conversion import celsius_fahrenheit, euros_devise, km_miles
+from app.outils.texte import compter_voyelles, est_palindrome, inverser
+from app.outils.validation import code_postal, email_valide, mdp_robuste
 
-
-
-# 1. Initialisation de l'application en premier
 app = FastAPI(title="Mini API")
 
-# 2. Tous les imports de vos modules
-from app.outils.texte import inverser, est_palindrome, compter_voyelles
-from app.outils.conversion import celsius_fahrenheit, km_miles, euros_devise
 
-
-
-from app.math import est_premier, factorielle, pgcd
+# --- ROUTE COMMUNE ---
+@app.get("/sante")
+def route_sante():
+    return {"statut": "ok"}
 
 
 # --- ROUTES TEXTE ---
@@ -25,12 +23,14 @@ def route_inverser(chaine: str):
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
 
+
 @app.get("/texte/palindrome/{texte}")
 def route_palindrome(texte: str):
     try:
         return {"texte": texte, "est_palindrome": est_palindrome(texte)}
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
+
 
 @app.get("/texte/voyelles/{texte}")
 def route_voyelles(texte: str):
@@ -49,20 +49,23 @@ def route_email_valide(email: str):
         raise HTTPException(400, detail=str(e))
 
 
-# --- ROUTES MATHS ---
-
-
-
-
 @app.get("/mdp-robuste")
 def route_mdp_robuste(mdp: str):
     try:
         return {"valide": mdp_robuste(mdp)}
     except ValueError as e:
         raise HTTPException(400, detail=str(e))
-    
 
 
+@app.get("/code-postal")
+def route_code_postal(cp: str):
+    try:
+        return {"code_postal": cp, "valide": code_postal(cp)}
+    except ValueError as e:
+        raise HTTPException(400, detail=str(e))
+
+
+# --- ROUTES MATHS ---
 @app.get("/math/factorielle/{n}")
 def route_factorielle(n: int):
     try:
@@ -84,10 +87,8 @@ def route_pgcd(a: int, b: int):
     try:
         return {"a": a, "b": b, "resultat": pgcd(a, b)}
     except ValueError as e:
-
         raise HTTPException(400, detail=str(e))
 
-        raise HTTPException(status_code=400, detail=str(e))
 
 # --- ROUTES CONVERSION ---
 @app.get("/conversion/celsius_fahrenheit/{celsius}")
@@ -109,7 +110,10 @@ def route_km_miles(km: float):
 @app.get("/conversion/euros_devise/{montant}/{devise}")
 def route_euros_devise(montant: float, devise: str):
     try:
-        return {"montant": montant, "devise": devise.upper(), "resultat": euros_devise(montant, devise)}
+        return {
+            "montant": montant,
+            "devise": devise.upper(),
+            "resultat": euros_devise(montant, devise),
+        }
     except ValueError as e:
         raise HTTPException(400, detail=str(e))
-
