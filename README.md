@@ -39,6 +39,7 @@ Exemples de requêtes :
 
 | Route | Exemple | Réponse |
 |---|---|---|
+| `GET /sante` | `/sante` | état de l'API |
 | `GET /email-valide` | `/email-valide?email=lea@mail.fr` | `{"email": "lea@mail.fr", "valide": true}` |
 | `GET /mdp-robuste` | `/mdp-robuste?mdp=Abcdef1!` | `{"valide": true}` |
 | `GET /code-postal` | `/code-postal?cp=94000` | `{"code_postal": "94000", "valide": true}` |
